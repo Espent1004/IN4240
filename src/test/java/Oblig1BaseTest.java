@@ -35,20 +35,10 @@ public abstract class Oblig1BaseTest {
 
     abstract String getTestNumber();
 
-    @BeforeClass
-    public void setup(){
-        WebDriverManager.chromedriver().setup();
-    }
-
     @BeforeTest
     public void init() {
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-
-        /**
-         * Test report will be generated to below path
-         * This path (C:\\Reports\\IN3240\\Task1.html) for Windows.
-         * For Mac/Linux you need to change path
-         */
         final String dir = System.getProperty("user.dir");
         report = new ExtentReports(dir + "\\Reports\\IN3240\\Task" + getTestNumber() + ".html");
 
