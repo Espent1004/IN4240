@@ -3,6 +3,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import helpers.ScreenShots;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;
@@ -33,17 +35,22 @@ public abstract class Oblig1BaseTest {
 
     abstract String getTestNumber();
 
+    @BeforeClass
+    public void setup(){
+        WebDriverManager.chromedriver().setup();
+    }
+
     @BeforeTest
     public void init() {
         driver = new ChromeDriver();
-
 
         /**
          * Test report will be generated to below path
          * This path (C:\\Reports\\IN3240\\Task1.html) for Windows.
          * For Mac/Linux you need to change path
          */
-        report = new ExtentReports("C:\\Reports\\IN3240\\Task" + getTestNumber() + ".html");
+        final String dir = System.getProperty("user.dir");
+        report = new ExtentReports(dir + "\\Reports\\IN3240\\Task" + getTestNumber() + ".html");
 
         test = report.startTest("Task" + getTestNumber());
         test.log(LogStatus.INFO, "Browser started");
